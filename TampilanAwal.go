@@ -36,8 +36,3 @@ func main() {
 		fmt.Println("Login Anda Gagal")
 	}
 }
-
-// kalo mau collab ngerjain tubes alpro, mening pake https://github.com/
-// supaya gampang ngerjain barengnya.
-// supaya ngerti make nya, belajar dulu tentang git sama github
-// - ayman
