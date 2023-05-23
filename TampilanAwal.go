@@ -34,5 +34,9 @@ func main() {
 		MenuUtama(u)
 	} else {
 		fmt.Println("Login Anda Gagal")
+		fmt.Println("Silahkan Coba Lagi")
 	}
 }
+
+//baru
+//baru lagi
