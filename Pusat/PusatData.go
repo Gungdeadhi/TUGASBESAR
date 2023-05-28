@@ -18,14 +18,14 @@ func Login(usser, password *string) bool {
 	var i int = 3
 
 	fmt.Print("Masukan Usser : ")
-	fmt.Scan(usser)
+	fmt.Scanln(usser)
 	fmt.Print("Masukan Password : ")
 	fmt.Scan(password)
 	i--
 
 	for *password != "admin" && i > 0 {
 		fmt.Print("Masukan Usser : ")
-		fmt.Scan(usser)
+		fmt.Scanln(usser)
 		fmt.Print("Masukan Password : ")
 		fmt.Scan(password)
 		i--
