@@ -36,9 +36,12 @@ func InformasiPeminjaman() {
 }
 
 func FungsiAdmin(r Regristrasi.AdminRegristrasi) {
+	var i int
 	var n Pusat.Buku
 	var x string
-	for {
+
+	i = 0
+	for i != 1000000 {
 		MenuAdmin(r.Nama)
 		fmt.Scan(&x)
 		switch x {
@@ -53,7 +56,7 @@ func FungsiAdmin(r Regristrasi.AdminRegristrasi) {
 		case "5":
 			fmt.Println("5")
 		case "6":
-			break
+			i = 1000000
 		default:
 			fmt.Println("INPUT TIDAK VALID")
 		}
@@ -61,7 +64,10 @@ func FungsiAdmin(r Regristrasi.AdminRegristrasi) {
 }
 func FungsiPeminjaman() {
 	var x string
-	for {
+	var i int
+
+	i = 0
+	for i != 1000000 {
 		InformasiPeminjaman()
 		fmt.Scan(&x)
 		switch x {
@@ -70,7 +76,7 @@ func FungsiPeminjaman() {
 		case "2":
 			fmt.Println("2")
 		case "3":
-			break
+			i = 1000000
 		default:
 			fmt.Println("INPUT TIDAK VALID")
 		}
