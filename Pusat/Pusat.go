@@ -1,4 +1,4 @@
-package Admin
+package Pusat
 
 import "fmt"
 
@@ -10,6 +10,25 @@ type Buku struct {
 }
 
 type TabBuku [NMAX]Buku
+
+const TABEL = 6
+
+var H = [TABEL]string{
+	"NO",
+	"JUDUL",
+	"KODE",
+	"PENGARANG",
+	"TAHUN",
+	"STOK",
+}
+
+func Cetak(T TabBuku, n int) {
+	var i int
+	for i = 0; i < n; i++ {
+		fmt.Print(T[i].Judul)
+		fmt.Print(T[i].Pengarang)
+	}
+}
 
 func TambahBuku(T *TabBuku, n Buku, i *int) {
 	T[*i] = n
@@ -36,14 +55,14 @@ func HapusBuku(T *TabBuku, n *int, Judul string) {
 }
 
 func InputBuku(n *Buku) {
-	fmt.Println("Masukan Judul Buku : ")
+	fmt.Print("Masukan Judul Buku : ")
 	fmt.Scan(&n.Judul)
-	fmt.Println("Masukan Nama Pengarang : ")
+	fmt.Print("Masukan Nama Pengarang : ")
 	fmt.Scan(&n.Pengarang)
-	fmt.Println("Masukan Kode Buku : ")
+	fmt.Print("Masukan Kode Buku : ")
 	fmt.Scan(&n.Kode)
-	fmt.Println("Masukan Tahun Terbit Buku : ")
+	fmt.Print("Masukan Tahun Terbit Buku : ")
 	fmt.Scan(&n.T_Terbit)
-	fmt.Println("Masukan Jumlah Buku : ")
+	fmt.Print("Masukan Jumlah Buku : ")
 	fmt.Scan(&n.JmlBuku)
 }

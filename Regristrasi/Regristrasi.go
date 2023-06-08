@@ -1,15 +1,15 @@
-package Pusat
+package Regristrasi
 
 import "fmt"
 
-const NMAX = 10000
+const BanyakAdmin = 10000
 
-type Registrasi struct {
+type AdminRegristrasi struct {
 	Nama     string
 	Usser    string
 	Password string
 }
-type Member [NMAX]Registrasi
+type Pengguna [BanyakAdmin]AdminRegristrasi
 
 // func bubble_sort_1(A *[5]int, n int){
 // 	var i, k int
@@ -21,7 +21,12 @@ type Member [NMAX]Registrasi
 // 	var i pas
 // }
 
-func BuatAkun(T *Member, n *int) {
+func BuatAkun(T *Pengguna, n *int) {
+	fmt.Print("\v",
+		"=================================\n",
+		"| ***  REGRISTRASI ADMIN  *** |\n",
+		"=================================\n",
+	)
 	fmt.Print("Nama : ")
 	fmt.Scan(&T[*n].Nama)
 	fmt.Print("Buat Ussername : ")
@@ -29,15 +34,12 @@ func BuatAkun(T *Member, n *int) {
 	fmt.Print("Buat Password : ")
 	fmt.Scan(&T[*n].Password)
 	*n++
-	fmt.Println("Registrasi Berhasil")
-	for i := 1; i < *n-1; i++ {
-		if T[i].Usser == T[i-1].Usser && T[i].Password == T[i-1].Password {
-			fmt.Print("Username dan password sudah ada")
-		}
-	}
+	fmt.Println("-----------------------------")
+	fmt.Println("|    Regristasi Berhasil    |")
+	fmt.Println("-----------------------------")
 }
 
-func Login(T Member, n int, r *Registrasi) bool {
+func Login(T Pengguna, n int, r *AdminRegristrasi) bool {
 	var percobaan int = 3
 
 	for percobaan > 0 {

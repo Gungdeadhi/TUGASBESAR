@@ -1,36 +1,78 @@
 package Admin
 
-import "fmt"
+import (
+	"TUGASBESAR/Pusat"
+	"TUGASBESAR/Regristrasi"
+	"fmt"
+)
 
-func MenuAdmin() {
+func MenuAdmin(n string) {
+
 	fmt.Print("\v",
-		"============================================================================\n",
-		"============================================================================\n",
-		"--------------------------------- Menu Admin  ------------------------------\n",
-		"----------------------------------------------------------------------------\n",
-		"1. Tambah Buku \n",
-		"2. Hapus Buku \n",
-		"3. Lihat Member \n",
-		"4. Kembali \n",
+		"===================================\n",
+		"|-------------- Menu -------------|\n",
+		"===================================\n",
+	)
+	fmt.Printf(" *** Selamat Datang, %s *** ", n)
+	fmt.Println(" ")
+	fmt.Print("\v",
+		"1. Daftar Buku \n",
+		"2. Informasi Peminjaman \n",
+		"3. Tambah Buku \n",
+		"4. Hapus Buku\n",
+		"5. Daftar Member\n",
+		"6. Kembali \n",
+	)
+}
+func InformasiPeminjaman() {
+	fmt.Print("\v",
+		"==================================\n",
+		"| ***  Informasi Peminjaman  *** |\n",
+		"==================================\n",
+		"1. Peminjaman Buku \n",
+		"2. Pengembalian Buku \n",
+		"3. Keluar\n",
 	)
 }
 
-func FungsiAdmin() {
-	var n Buku
+func FungsiAdmin(r Regristrasi.AdminRegristrasi) {
+	var n Pusat.Buku
 	var x string
 	for {
-		MenuAdmin()
+		MenuAdmin(r.Nama)
 		fmt.Scan(&x)
-		if x == "1" {
-			InputBuku(&n)
-		} else if x == "2" {
-			fmt.Println("Pilihan 2")
-		} else if x == "3" {
-			fmt.Println("Pilihan 3")
-		} else if x == "4" {
+		switch x {
+		case "1":
+			fmt.Println("1")
+		case "2":
+			FungsiPeminjaman()
+		case "3":
+			Pusat.InputBuku(&n)
+		case "4":
+			fmt.Println("4")
+		case "5":
+			fmt.Println("5")
+		case "6":
 			break
-		} else {
-			fmt.Println("tes salah input.")
+		default:
+			fmt.Println("INPUT TIDAK VALID")
+		}
+	}
+}
+func FungsiPeminjaman() {
+	var x string
+	for {
+		InformasiPeminjaman()
+		fmt.Scan(&x)
+		switch x {
+		case "1":
+			fmt.Println("1")
+		case "2":
+			fmt.Println("2")
+		case "3":
+			break
+		default:
+			fmt.Println("INPUT TIDAK VALID")
 		}
 	}
 }
