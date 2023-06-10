@@ -29,7 +29,7 @@ func Pilih() {
 func main() {
 	var T Regristrasi.Pengguna
 	var r Regristrasi.AdminRegristrasi
-	var n int
+	var n, percobaan int
 	var x string
 	var berhasil bool
 
@@ -38,21 +38,55 @@ func main() {
 		Pilih()
 		fmt.Scan(&x)
 
-		if x == "1" {
-			Regristrasi.BuatAkun(&T, &n)
-		} else if x == "2" {
-			fmt.Print("Masukan Usser : ")
-			fmt.Scan(&r.Usser)
-			fmt.Print("Masukan Password : ")
-			fmt.Scan(&r.Password)
+		if x == "1" { // Registrasi
+			fmt.Print("\v",
+				"=================================\n",
+				"|  ***  REGRISTRASI ADMIN  ***  |\n",
+				"=================================\n",
+			)
 
-			berhasil = Regristrasi.Login(T, n, &r)
+			fmt.Print("Nama : ")
+			fmt.Scan(&r.Nama)
+			fmt.Print("Buat Ussername : ")
+			fmt.Scan(&r.Usser)
+			fmt.Print("Buat Password : ")
+			fmt.Scan(&r.Password)
+			for Regristrasi.Cek(T, n, r) {
+				Regristrasi.Gagal()
+				fmt.Print("Nama : ")
+				fmt.Scan(&r.Nama)
+				fmt.Print("Buat Ussername : ")
+				fmt.Scan(&r.Usser)
+				fmt.Print("Buat Password : ")
+				fmt.Scan(&r.Password)
+			}
+			Regristrasi.BuatAkun(&T, &n, r)
+			Regristrasi.Berhasil()
+		} else if x == "2" { // Login
+			percobaan = 3
+
+			for percobaan > 0 && !berhasil {
+				fmt.Print("Masukan Usser : ")
+				fmt.Scan(&r.Usser)
+				fmt.Print("Masukan Password : ")
+				fmt.Scan(&r.Password)
+
+				berhasil = Regristrasi.Login(T, n, &r)
+
+				if !berhasil {
+					fmt.Println("Ussername Atau Pasword Salah")
+					fmt.Println("Silahkan Coba Lagi")
+				}
+
+				percobaan--
+			}
 
 			if berhasil {
 				Admin.FungsiAdmin(r)
 			} else {
+				fmt.Println("----------------")
 				fmt.Println("Login Anda Gagal")
-				fmt.Println("Silahkan Coba Lagi")
+				fmt.Println("----------------")
 			}
 		} else if x == "3" {
 			os.Exit(0)

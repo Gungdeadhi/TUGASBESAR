@@ -21,36 +21,39 @@ type Pengguna [BanyakAdmin]AdminRegristrasi
 // 	var i pas
 // }
 
-func BuatAkun(T *Pengguna, n *int) {
-	fmt.Print("\v",
-		"=================================\n",
-		"| ***  REGRISTRASI ADMIN  *** |\n",
-		"=================================\n",
-	)
-	fmt.Print("Nama : ")
-	fmt.Scan(&T[*n].Nama)
-	fmt.Print("Buat Ussername : ")
-	fmt.Scan(&T[*n].Usser)
-	fmt.Print("Buat Password : ")
-	fmt.Scan(&T[*n].Password)
+func BuatAkun(T *Pengguna, n *int, r AdminRegristrasi) {
+	T[*n] = r
 	*n++
+}
+
+func Gagal() {
+	fmt.Println("------------------------------------------------")
+	fmt.Println("|   USSERNAME ATAU PASSWORD TELAH DIGUNAKAN    |")
+	fmt.Println("------------------------------------------------")
+}
+
+func Berhasil() {
 	fmt.Println("-----------------------------")
 	fmt.Println("|    Regristasi Berhasil    |")
 	fmt.Println("-----------------------------")
 }
 
-func Login(T Pengguna, n int, r *AdminRegristrasi) bool {
-	var percobaan int = 3
-
-	for percobaan > 0 {
-		for i := 0; i < n; i++ {
-			if T[i].Usser == r.Usser && T[i].Password == r.Password {
-				r.Nama = T[i].Nama
-				return true
-			}
+func Cek(T Pengguna, n int, r AdminRegristrasi) bool {
+	for i := 0; i < n; i++ {
+		if T[i].Usser == r.Usser || T[i].Password == r.Password {
+			return true
 		}
+	}
 
-		percobaan--
+	return false
+}
+
+func Login(T Pengguna, n int, r *AdminRegristrasi) bool {
+	for i := 0; i < n; i++ {
+		if T[i].Usser == r.Usser && T[i].Password == r.Password {
+			r.Nama = T[i].Nama
+			return true
+		}
 	}
 
 	return false
