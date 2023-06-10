@@ -1,6 +1,9 @@
 package Pusat
 
-import "fmt"
+import (
+	"TUGASBESAR/Regristrasi"
+	"fmt"
+)
 
 const NMAX = 10000
 
@@ -59,7 +62,7 @@ func InputBuku(n *Buku) {
 	fmt.Scan(&n.JmlBuku)
 }
 
-func DaftarMember(A*Regristrasi.Pengguna, N int) {
+func DaftarMember(A *Regristrasi.Pengguna, N int) {
 	var i int
 	for i = 1; i < N; i++ {
 		fmt.Println(A[i].Nama)
