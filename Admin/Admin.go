@@ -36,9 +36,11 @@ func InformasiPeminjaman() {
 }
 
 func FungsiAdmin(r Regristrasi.AdminRegristrasi) {
-	var i int
+	var i, N int
 	var n Pusat.Buku
-	var x string
+	var x, Judul string
+	var T Pusat.TabBuku
+	var A Regristrasi.Pengguna
 
 	i = 0
 	for i != 1000000 {
@@ -46,15 +48,15 @@ func FungsiAdmin(r Regristrasi.AdminRegristrasi) {
 		fmt.Scan(&x)
 		switch x {
 		case "1":
-			fmt.Println("1")
+			Pusat.CariBuku(T, N, Judul)
 		case "2":
 			FungsiPeminjaman()
 		case "3":
 			Pusat.InputBuku(&n)
 		case "4":
-			fmt.Println("4")
+			Pusat.HapusBuku(&T, &N, Judul)
 		case "5":
-			fmt.Println("5")
+			Pusat.DaftarMember(&A, N)
 		case "6":
 			i = 1000000
 		default:
