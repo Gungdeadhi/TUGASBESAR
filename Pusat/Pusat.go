@@ -62,7 +62,7 @@ func InputBuku(n *Buku) {
 func DaftarMember(A*Regristrasi.Pengguna, N int) {
 	var i int
 	for i = 1; i < N; i++ {
-		fmt.Println(A[i].Regristasi.Pengguna.Nama)
+		fmt.Println(A[i].Nama)
 	}
 
 }
