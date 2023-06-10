@@ -58,3 +58,11 @@ func InputBuku(n *Buku) {
 	fmt.Print("Masukan Jumlah Buku : ")
 	fmt.Scan(&n.JmlBuku)
 }
+
+func DaftarMember(A*Regristrasi.Pengguna, N int) {
+	var i int
+	for i = 1; i < N; i++ {
+		fmt.Println(A[i].Regristasi.Pengguna.Nama)
+	}
+
+}
