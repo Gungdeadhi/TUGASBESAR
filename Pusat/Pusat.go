@@ -1,7 +1,6 @@
 package Pusat
 
 import (
-	"TUGASBESAR/Regristrasi"
 	"fmt"
 )
 
@@ -13,16 +12,6 @@ type Buku struct {
 }
 
 type TabBuku [NmaxBuku]Buku
-
-const TABEL = 6
-
-const NmaxMember int = 10000
-
-type Member struct {
-	Nama string
-}
-
-type TabMember [NmaxMember]Member
 
 func InputBuku(n *Buku) {
 	fmt.Print("Masukan Judul Buku : ")
@@ -71,6 +60,12 @@ func CariBuku_Kode(T TabBuku, n int, Kode string) bool {
 	}
 	return false
 }
+func EditBuku(T TabBuku, n Buku, judul string) {
+	var i int
+	idx := CariBuku_Nama(T, i, judul)
+	T[idx] = n
+	i++
+}
 
 func HapusBuku(T *TabBuku, n *int, Judul string) {
 	idx := CariBuku_Nama(*T, *n, Judul)
@@ -81,30 +76,22 @@ func HapusBuku(T *TabBuku, n *int, Judul string) {
 	*n--
 }
 
-func DaftarMember(A *Regristrasi.Pengguna, N int) {
-	var i int
-	for i = 1; i < N; i++ {
-		fmt.Println(A[i].Nama)
-	}
+// func SelSort(T *TabBuku, n Buku) {
+// 	var pass, i, temp, idx int
+// 	pass = 1
+// 	for pass < n-1 {
+// 		idx = pass - 1
+// 		i = pass
+// 		for i < n {
+// 			if
+// 		}
+// 	}
+// }
 
-}
+// func DaftarMember(A *Regristrasi.Pengguna, N int) {
+// 	var i int
+// 	for i = 1; i < N; i++ {
+// 		fmt.Println(A[i].Nama)
+// 	}
 
-func PinjamBuku(n *Member, T *Buku) {
-	fmt.Print("Nama : ")
-	fmt.Scan(&n.Nama)
-	fmt.Print("Judul Buku : ")
-	fmt.Scan(&T.Judul)
-	fmt.Print("Tanggal Pinjam")
-}
-
-func TambahPeminjam(n *TabMember, i *int, r Member) {
-	n[*i] = r
-	*i++
-}
-func PengembalianBuku(n *Member, T *Buku) {
-	fmt.Print("Nama : ")
-	fmt.Scan(&n.Nama)
-	fmt.Print("Judul Buku : ")
-	fmt.Scan(&T.Judul)
-	fmt.Print("Tanggal Kembali : ")
-}
+// }
