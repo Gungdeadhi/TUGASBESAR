@@ -11,16 +11,6 @@ type AdminRegristrasi struct {
 }
 type Pengguna [BanyakAdmin]AdminRegristrasi
 
-// func bubble_sort_1(A *[5]int, n int){
-// 	var i, k int
-// 	for k = 1; k <= n-1; k++{
-// 		for i = 0;
-// 	}
-//}
-// func selection_sort(A *[10]int, n int){
-// 	var i pas
-// }
-
 func BuatAkun(T *Pengguna, n *int, r AdminRegristrasi) {
 	T[*n] = r
 	*n++

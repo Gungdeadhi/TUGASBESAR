@@ -17,9 +17,9 @@ func MenuAdmin(n string) {
 	fmt.Println(" ")
 	fmt.Print("\v",
 		"1. Daftar Buku \n",
-		"2. Informasi Peminjaman \n",
-		"3. Tambah Buku \n",
-		"4. Hapus Buku\n",
+		"2. Tambah Buku \n",
+		"3. Hapus Buku\n",
+		"4. Informasi Peminjaman \n",
 		"5. Daftar Member\n",
 		"6. Kembali \n",
 	)
@@ -35,11 +35,11 @@ func InformasiPeminjaman() {
 	)
 }
 
-func FungsiAdmin(r Regristrasi.AdminRegristrasi) {
+func FungsiAdmin(T *Pusat.TabBuku, r Regristrasi.AdminRegristrasi) {
 	var i, N int
+	var j string
 	var n Pusat.Buku
 	var x, Judul string
-	var T Pusat.TabBuku
 	var A Regristrasi.Pengguna
 
 	i = 0
@@ -48,13 +48,24 @@ func FungsiAdmin(r Regristrasi.AdminRegristrasi) {
 		fmt.Scan(&x)
 		switch x {
 		case "1":
-			Pusat.CariBuku(T, N, Judul)
+			Pusat.CetakBuku(*T, i)
 		case "2":
-			FungsiPeminjaman()
+			fmt.Println("Masukan Passowrd : ")
+			fmt.Scan(&j)
+			for j == "y" || j == "Y" || j == "Admin" {
+				Pusat.InputBuku(&n)
+				if Pusat.CariBuku_Kode(*T, N, n.Kode) {
+					fmt.Println("KODE BUKU GANDA")
+					Pusat.InputBuku(&n)
+				}
+				Pusat.TambahBuku(T, n, &i)
+				fmt.Println("Tambah Buku Lagi? [Y/N]")
+				fmt.Scan(&j)
+			}
 		case "3":
-			Pusat.InputBuku(&n)
+			FungsiInformasiPeminjaman()
 		case "4":
-			Pusat.HapusBuku(&T, &N, Judul)
+			Pusat.HapusBuku(T, &N, Judul)
 		case "5":
 			Pusat.DaftarMember(&A, N)
 		case "6":
@@ -64,7 +75,9 @@ func FungsiAdmin(r Regristrasi.AdminRegristrasi) {
 		}
 	}
 }
-func FungsiPeminjaman() {
+func FungsiInformasiPeminjaman() {
+	var n Pusat.Member
+	var r Pusat.Buku
 	var x string
 	var i int
 
@@ -74,9 +87,9 @@ func FungsiPeminjaman() {
 		fmt.Scan(&x)
 		switch x {
 		case "1":
-			fmt.Println("1")
+			Pusat.PinjamBuku(&n, &r)
 		case "2":
-			fmt.Println("2")
+			Pusat.PengembalianBuku(&n, &r)
 		case "3":
 			i = 1000000
 		default:

@@ -2,6 +2,7 @@ package main
 
 import (
 	"TUGASBESAR/Admin"
+	"TUGASBESAR/Pusat"
 	"TUGASBESAR/Regristrasi"
 	"fmt"
 	"os"
@@ -27,6 +28,7 @@ func Pilih() {
 	)
 }
 func main() {
+	var A Pusat.TabBuku
 	var T Regristrasi.Pengguna
 	var r Regristrasi.AdminRegristrasi
 	var n, percobaan int
@@ -74,15 +76,17 @@ func main() {
 				berhasil = Regristrasi.Login(T, n, &r)
 
 				if !berhasil {
-					fmt.Println("Ussername Atau Pasword Salah")
-					fmt.Println("Silahkan Coba Lagi")
+					fmt.Println("--------------------------------")
+					fmt.Println("| Ussername Atau Pasword Salah |")
+					fmt.Println("| Silahkan Coba Lagi           |")
+					fmt.Println("--------------------------------")
 				}
 
 				percobaan--
 			}
 
 			if berhasil {
-				Admin.FungsiAdmin(r)
+				Admin.FungsiAdmin(&A, r)
 			} else {
 				fmt.Println("----------------")
 				fmt.Println("Login Anda Gagal")
