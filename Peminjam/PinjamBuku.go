@@ -7,32 +7,35 @@ import (
 const NmaxPinjam int = 1000
 
 type Pinjam struct {
-	Nama        string
-	Judul       string
-	Tgl_Pinjam  int
-	Tgl_kembali int
-	Bulan       int
-	Tahun       int
+	Judul        string
+	Nama         string
+	Tgl_Pinjam   Date
+	Tgl_kembali1 Date
+	Tgl_kembali2 Date
+}
+type Date struct {
+	Tgl, Bln, Thn int
 }
 type TabPinjam [NmaxPinjam]Pinjam
 
 func InputPinjamBuku(n *Pinjam) {
+
 	fmt.Print("Nama : ")
 	fmt.Scan(&n.Nama)
 	fmt.Print("Judul Buku : ")
 	fmt.Scan(&n.Judul)
 	fmt.Print("Tanggal Pinjam : ")
-	fmt.Scan(&n.Tgl_Pinjam)
+	fmt.Scan(&n.Tgl_Pinjam.Tgl)
 	fmt.Print("Bulan Pinjam : ")
-	fmt.Scan(&n.Bulan)
+	fmt.Scan(&n.Tgl_Pinjam.Bln)
 	fmt.Print("Tahun Pinjam : ")
-	fmt.Scan(&n.Tahun)
+	fmt.Scan(&n.Tgl_Pinjam.Thn)
 	fmt.Print("Tanggal Kembali : ")
-	fmt.Scan(&n.Tgl_kembali)
+	fmt.Scan(&n.Tgl_kembali1.Tgl)
 	fmt.Print("Bulan Kembali : ")
-	fmt.Scan(&n.Bulan)
+	fmt.Scan(&n.Tgl_kembali1.Bln)
 	fmt.Print("Tahun Kembali : ")
-	fmt.Scan(&n.Tahun)
+	fmt.Scan(&n.Tgl_kembali1.Thn)
 }
 
 func TambahPeminjam(n *TabPinjam, i *int, r Pinjam) {
@@ -41,44 +44,49 @@ func TambahPeminjam(n *TabPinjam, i *int, r Pinjam) {
 }
 
 func PengembalianBuku(n *Pinjam) {
+
 	fmt.Print("Nama : ")
 	fmt.Scan(&n.Nama)
 	fmt.Print("Judul Buku : ")
 	fmt.Scan(&n.Judul)
-	fmt.Print("Tanggal Kembali : ")
 	fmt.Print("Tanggal Pinjam : ")
-	fmt.Scan(&n.Tgl_Pinjam)
+	fmt.Scan(&n.Tgl_Pinjam.Tgl)
 	fmt.Print("Bulan Pinjam : ")
-	fmt.Scan(&n.Bulan)
+	fmt.Scan(&n.Tgl_Pinjam.Bln)
 	fmt.Print("Tahun Pinjam : ")
-	fmt.Scan(&n.Tahun)
+	fmt.Scan(&n.Tgl_Pinjam.Thn)
 	fmt.Print("Tanggal Kembali : ")
-	fmt.Scan(&n.Tgl_kembali)
+	fmt.Scan(&n.Tgl_kembali2.Tgl)
 	fmt.Print("Bulan Kembali : ")
-	fmt.Scan(&n.Bulan)
+	fmt.Scan(&n.Tgl_kembali2.Bln)
 	fmt.Print("Tahun Kembali : ")
-	fmt.Scan(&n.Tahun)
+	fmt.Scan(&n.Tgl_kembali2.Thn)
 }
 
-func Kabisat(T *Pinjam) bool {
-	if T.Tahun%4 == 0 && (T.Tahun%400 == 0 || T.Tahun%100 != 0) {
-		return true
-	}
-	return false
+func Kabisat(T Date) bool {
+	return T.Thn%4 == 0 && (T.Thn%400 == 0 || T.Thn%100 != 0)
 }
-func getJumlahHari(T Pinjam, jmlHari *int) {
-	if T.Bulan == 2 {
-		if Kabisat(&T) {
-			*jmlHari = 29
-		} else {
-			*jmlHari = 28
-		}
-	} else {
-		if T.Bulan <= 7 {
-			*jmlHari = 30 + (T.Bulan % 2)
-		} else {
-			*jmlHari = 31 - (T.Bulan % 2)
-		}
-	}
-}
-func BiayaPeminjaman()
+
+func HitungSelisihHari()
+
+// func GetJumlahHari(T Pinjam, jmlHari *int) {
+// 	if T.Bulan == 2 {
+// 		if Kabisat(T) {
+// 			*jmlHari = 29
+// 		} else {
+// 			*jmlHari = 28
+// 		}
+// 	} else {
+// 		if T.Bulan <= 7 {
+// 			*jmlHari = 30 + (T.Bulan % 2)
+// 		} else {
+// 			*jmlHari = 31 - (T.Bulan % 2)
+// 		}
+// 	}
+// }
+// func BiayaPeminjaman(T Pinjam, jmlHari *int){
+// 	var Biaya, Toatal int
+
+// 	fmt.Scan(&Biaya)
+// 	Total = GetJumlahHari(T, jmlHari) * Biaya
+// }

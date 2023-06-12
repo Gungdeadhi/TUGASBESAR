@@ -76,17 +76,24 @@ func HapusBuku(T *TabBuku, n *int, Judul string) {
 	*n--
 }
 
-// func SelSort(T *TabBuku, n Buku) {
-// 	var pass, i, temp, idx int
-// 	pass = 1
-// 	for pass < n-1 {
-// 		idx = pass - 1
-// 		i = pass
-// 		for i < n {
-// 			if
-// 		}
-// 	}
-// }
+func SelSort(T *TabBuku, n int) {
+	var pass, i, idx int
+	var temp Buku
+	pass = 1
+	for pass < n-1 {
+		idx = pass - 1
+		i = pass
+		for i < n {
+			if T[i].JmlBuku > T[idx].JmlBuku {
+				idx = i
+			}
+		}
+		temp = T[idx]
+		T[idx] = T[pass-1]
+		T[pass-1] = temp
+		pass++
+	}
+}
 
 // func DaftarMember(A *Regristrasi.Pengguna, N int) {
 // 	var i int
