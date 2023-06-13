@@ -22,10 +22,11 @@ func Pilih() {
 		"========================================================\n",
 		"||***      ***          PILIH MENU         ***      ***||\n",
 		"========================================================\n",
-		"1. Regristrasi\n",
+		"1. Registrasi\n",
 		"2. Login\n",
 		"3. Keluar\n",
 	)
+	fmt.Println(" ")
 }
 func main() {
 	var A Pusat.TabBuku
@@ -38,39 +39,41 @@ func main() {
 	tampilanAwal()
 	for {
 		Pilih()
+		fmt.Println("Pilih [1/2/3]")
+		fmt.Print("pilihan : ")
 		fmt.Scan(&x)
 
-		if x == "1" { // Registrasi
+		if x == "1" {
 			fmt.Print("\v",
 				"=================================\n",
-				"|  ***  REGRISTRASI ADMIN  ***  |\n",
+				"|  ***  REGISTRASI  ADMIN  ***  |\n",
 				"=================================\n",
 			)
 
-			fmt.Print("Nama : ")
+			fmt.Print("Nama 		: ")
 			fmt.Scan(&r.Nama)
-			fmt.Print("Buat Ussername : ")
+			fmt.Print("Buat Ussername 	: ")
 			fmt.Scan(&r.Usser)
-			fmt.Print("Buat Password : ")
+			fmt.Print("Buat Password 	: ")
 			fmt.Scan(&r.Password)
 			for Regristrasi.Cek(T, n, r) {
 				Regristrasi.Gagal()
-				fmt.Print("Nama : ")
+				fmt.Print("Nama 	: ")
 				fmt.Scan(&r.Nama)
-				fmt.Print("Buat Ussername : ")
+				fmt.Print("Buat Ussername 	: ")
 				fmt.Scan(&r.Usser)
-				fmt.Print("Buat Password : ")
+				fmt.Print("Buat Password	 : ")
 				fmt.Scan(&r.Password)
 			}
 			Regristrasi.BuatAkun(&T, &n, r)
 			Regristrasi.Berhasil()
-		} else if x == "2" { // Login
+		} else if x == "2" {
 			percobaan = 3
 
 			for percobaan > 0 && !berhasil {
-				fmt.Print("Masukan Usser : ")
+				fmt.Print("Masukan User 		: ")
 				fmt.Scan(&r.Usser)
-				fmt.Print("Masukan Password : ")
+				fmt.Print("Masukan Password 	: ")
 				fmt.Scan(&r.Password)
 
 				berhasil = Regristrasi.Login(T, n, &r)
