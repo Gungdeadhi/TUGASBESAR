@@ -2,6 +2,8 @@ package Pusat
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 const NmaxBuku = 10000
@@ -13,67 +15,135 @@ type Buku struct {
 
 type TabBuku [NmaxBuku]Buku
 
+const TabCetak = 6
+
+var Tabel = [TabCetak]string{
+	"NO",
+	"JUDUL",
+	"KODE",
+	"PENGARANG",
+	"TAHUN TERBIT",
+	"STOK",
+}
+
 func InputBuku(n *Buku) {
-	fmt.Print("Masukan Judul Buku : ")
+	fmt.Print("Masukan Judul Buku		: ")
 	fmt.Scan(&n.Judul)
-	fmt.Print("Masukan Nama Pengarang : ")
+	fmt.Print("Masukan Nama Pengarang 		: ")
 	fmt.Scan(&n.Pengarang)
-	fmt.Print("Masukan Kode Buku : ")
+	fmt.Print("Masukan Kode Buku 		: ")
 	fmt.Scan(&n.Kode)
-	fmt.Print("Masukan Tahun Terbit Buku : ")
+	fmt.Print("Masukan Tahun Terbit Buku	: ")
 	fmt.Scan(&n.T_Terbit)
-	fmt.Print("Masukan Jumlah Buku : ")
+	fmt.Print("Masukan Jumlah Buku 		: ")
 	fmt.Scan(&n.JmlBuku)
 }
 
-func TambahBuku(T *TabBuku, n Buku, i *int) {
-	T[*i] = n
-	*i++
+func TambahBuku(T *TabBuku, N *int, k Buku) {
+	T[*N] = k
+	*N++
+}
+
+func ToStr(n int) string {
+	return strconv.Itoa(n)
+}
+
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+
+	return b
+}
+
+func LJust(s string, lebar int) string {
+	var padding string
+
+	if lebar <= len(s) {
+		return s
+	}
+
+	padding = strings.Repeat(" ", lebar-len(s))
+	return s + padding
 }
 
 func CetakBuku(T TabBuku, n int) {
-	for i := 0; i < n; i++ {
-		fmt.Println(T[i].Judul)
-		fmt.Println(T[i].Pengarang)
-		fmt.Println(T[i].Kode)
-		fmt.Println(T[i].T_Terbit)
-		fmt.Println(T[i].JmlBuku)
+	var i int
+	var MaxTab [TabCetak]int
+	var Pemisah string
+
+	for i = 0; i < TabCetak; i++ {
+		MaxTab[i] = len(Tabel[i])
 	}
+
+	for i = 0; i < n; i++ {
+		MaxTab[0] = Max(MaxTab[0], len(ToStr(i+1)))
+		MaxTab[1] = Max(MaxTab[1], len(T[i].Judul))
+		MaxTab[2] = Max(MaxTab[2], len(T[i].Pengarang))
+		MaxTab[3] = Max(MaxTab[3], len(T[i].Kode))
+		MaxTab[4] = Max(MaxTab[4], len(ToStr(T[i].T_Terbit)))
+		MaxTab[5] = Max(MaxTab[5], len(ToStr(T[i].JmlBuku)))
+	}
+
+	Pemisah = "+"
+
+	for i = 0; i < TabCetak; i++ {
+		Pemisah += strings.Repeat("-", MaxTab[i]+2)
+		Pemisah += "+"
+	}
+
+	fmt.Println(Pemisah)
+
+	for i = 0; i < TabCetak; i++ {
+		fmt.Printf("| %s ", LJust(Tabel[i], MaxTab[i]))
+	}
+
+	fmt.Println("|")
+	fmt.Println(Pemisah)
+
+	for i = 0; i < n; i++ {
+		fmt.Printf(
+			"| %s | %s | %s | %s | %s | %s |\n",
+			LJust(ToStr(i+1), MaxTab[0]),
+			LJust(T[i].Judul, MaxTab[1]),
+			LJust(T[i].Kode, MaxTab[2]),
+			LJust(T[i].Pengarang, MaxTab[3]),
+			LJust(ToStr(T[i].T_Terbit), MaxTab[4]),
+			LJust(ToStr(T[i].JmlBuku), MaxTab[5]),
+		)
+	}
+	fmt.Println(Pemisah)
 }
 
-func CariBuku_Nama(T TabBuku, n int, Judul string) int {
-
+func CariBuku_Nama(T TabBuku, n int, judul string) int {
 	for i := 0; i < n; i++ {
-		if T[i].Judul == Judul {
-			return 1
+		if T[i].Judul == judul {
+			return i
 		}
 	}
 	return -1
 }
 
-func CariBuku_Kode(T TabBuku, n int, Kode string) bool {
-
+func CariBuku_Kode(T TabBuku, n int, kode string) int {
 	for i := 0; i < n; i++ {
-		if T[i].Kode == Kode {
-			return true
+		if T[i].Kode == kode {
+			return i
 		}
 	}
-	return false
+	return -1
 }
-func EditBuku(T TabBuku, n Buku, judul string) {
-	var i int
-	idx := CariBuku_Nama(T, i, judul)
-	T[idx] = n
-	i++
+func EditBuku(T *TabBuku, n int, judul string, k Buku) {
+	idx := CariBuku_Nama(*T, n, judul)
+	T[idx] = k
 }
 
-func HapusBuku(T *TabBuku, n *int, Judul string) {
-	idx := CariBuku_Nama(*T, *n, Judul)
-	for i := idx; i < *n; i++ {
+func HapusBuku(T *TabBuku, n int, Judul string) {
+	idx := CariBuku_Nama(*T, n, Judul)
+	for i := idx; i < n; i++ {
 		T[i] = T[i+1]
 	}
-	T[*n-1] = Buku{}
-	*n--
+	T[n-1] = Buku{}
+	n--
 }
 
 func SelSort(T *TabBuku, n int) {
@@ -94,11 +164,3 @@ func SelSort(T *TabBuku, n int) {
 		pass++
 	}
 }
-
-// func DaftarMember(A *Regristrasi.Pengguna, N int) {
-// 	var i int
-// 	for i = 1; i < N; i++ {
-// 		fmt.Println(A[i].Nama)
-// 	}
-
-// }
