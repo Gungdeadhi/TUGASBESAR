@@ -1,6 +1,7 @@
 package Admin
 
 import (
+	// "TUGASBESAR/Member"
 	"TUGASBESAR/PnK"
 	"TUGASBESAR/Pusat"
 	"TUGASBESAR/Regristrasi"
@@ -22,8 +23,9 @@ func MenuAdmin(n string) {
 		"3. Edit Data Buku \n",
 		"4. Hapus Buku\n",
 		"5. Informasi Peminjaman \n",
-		"6. Informasi Member \n",
-		"7. LogOut \n",
+		"6. Daftar Buku Terfavorit \n",
+		"7. Data Member\n",
+		"8. LogOut \n",
 	)
 }
 func InformasiPeminjaman() {
@@ -39,45 +41,52 @@ func InformasiPeminjaman() {
 	)
 }
 
-func Member() {
+func MenuMember() {
 	fmt.Print("\v",
 		"===============================\n",
 		"| ***  Informasi Member   *** |\n",
 		"===============================\n",
 		"1. Daftar Member\n",
 		"2. Tambah Member \n",
-		"3. Hapus Member \n",
-		"4. Keluar \n",
+		"3. Edit Member \n",
+		"4. Hapus Member \n",
+		"5. Keluar \n",
 	)
 }
 
-func FungsiAdmin(T *Pusat.TabBuku, r Regristrasi.AdminRegristrasi) {
-	var N, i int
+func FungsiAdmin(T *Pusat.TabBuku, N *int, r Regristrasi.AdminRegristrasi) {
+	var i int
 	var j string
 	var k Pusat.Buku
 	var x, Judul string
 	var idx int
-	// var A Regristrasi.Pengguna
 
 	i = 0
 	for i != 1000000 {
 		MenuAdmin(r.Nama)
-		fmt.Print("Pilih [1/2/3/4/5/6/7] ")
-		fmt.Println("Pilihan : ")
+		fmt.Println("Pilih [1/2/3/4/5/6/7] ")
+		fmt.Print("Pilihan : ")
 		fmt.Scan(&x)
 		switch x {
 		case "1":
-			Pusat.CetakBuku(*T, N)
+			if *N > 0 {
+				Pusat.CetakBuku(*T, *N)
+			} else {
+				fmt.Println("----------------------------------------------")
+				fmt.Println("Data Buku Kosong, Silahkan Tambahkan Data Buku")
+				fmt.Println("----------------------------------------------")
+			}
 
 		case "2":
 			for j != "N" || x == "2" {
 				Pusat.InputBuku(&k)
-				idx = Pusat.CariBuku_Kode(*T, N, k.Kode)
+				idx = Pusat.CariBuku_Kode(*T, *N, k.Kode)
 				if idx == -1 {
 					fmt.Print("Simpan Buku? [Y/N]: ")
 					fmt.Scan(&x)
 					if x == "y" || x == "Y" {
-						Pusat.TambahBuku(T, &N, k)
+						Pusat.TambahBuku(T, N, k)
+						Pusat.SelSort(T, *N)
 					}
 					fmt.Print("Tambah Buku Lagi? [Y/N]: ")
 					fmt.Scan(&j)
@@ -86,19 +95,19 @@ func FungsiAdmin(T *Pusat.TabBuku, r Regristrasi.AdminRegristrasi) {
 				}
 			}
 		case "3":
-			Pusat.CetakBuku(*T, N)
+			Pusat.CetakBuku(*T, *N)
 
 			for j != "N" || x == "3" {
 				fmt.Print("Masukan Judul Buku Yang Akan Diedit: ")
 				fmt.Scan(&Judul)
 				fmt.Println(" ")
-				idx = Pusat.CariBuku_Nama(*T, N, Judul)
+				idx = Pusat.CariBuku_Nama(*T, *N, Judul)
 				if idx == i {
 					Pusat.InputBuku(&k)
 					fmt.Print("Simpan Buku? [Y/N] : ")
 					fmt.Scan(&x)
 					if x == "y" || x == "Y" {
-						Pusat.EditBuku(T, N, Judul, k)
+						Pusat.EditBuku(T, *N, Judul, k)
 					}
 					fmt.Print("Edit Buku lagi? [Y|N]")
 					fmt.Scan(&j)
@@ -111,12 +120,12 @@ func FungsiAdmin(T *Pusat.TabBuku, r Regristrasi.AdminRegristrasi) {
 			fmt.Print("Masukan Judul Buku Yang Akan Dihapus : ")
 			fmt.Scan(&Judul)
 
-			idx = Pusat.CariBuku_Nama(*T, N, Judul)
+			idx = Pusat.CariBuku_Nama(*T, *N, Judul)
 			if idx == i {
-				fmt.Print("Buku akan dihapus? [Y|N] =  ")
+				fmt.Print("Buku akan dihapus? [Y|N] : ")
 				fmt.Scan(&j)
 				if j == "Y" || j == "y" {
-					Pusat.HapusBuku(T, N, Judul)
+					Pusat.HapusBuku(T, *N, Judul)
 				} else if j == "N" || j == "n" {
 					fmt.Println("Buku Tidak Terhapus ")
 				}
@@ -126,19 +135,35 @@ func FungsiAdmin(T *Pusat.TabBuku, r Regristrasi.AdminRegristrasi) {
 			}
 
 		case "5":
-			FungsiInformasiPeminjaman()
+			FungsiInformasiPeminjaman(T, N)
 		case "6":
+			fmt.Print("Masukan Buku Yang Ingin Dicari : ")
+			fmt.Scan(&Judul)
+
+			idx = Pusat.CariBuku_Nama(*T, *N, Judul)
+			if idx == i {
+				Pusat.CetakCariBuku(*T, *N)
+			} else {
+				fmt.Print("Buku Tidak Tersedia")
+			}
+
+		case "7":
+			// FungsiMember(A, H)
+		case "8":
 			i = 1000000
 		default:
 			fmt.Println("INPUT TIDAK VALID")
 		}
 	}
 }
-func FungsiInformasiPeminjaman() {
+func FungsiInformasiPeminjaman(T *Pusat.TabBuku, N1 *int) {
+	// var z Member.Member
+	var P1 PnK.TabPinjam
+	var P2 PnK.TabPengembali
 	var r PnK.Pinjam
-	var n PnK.TabPinjam
+	var y PnK.Pengembali
+	var i, NPinjam, NKembali, idx2 int
 	var x string
-	var i int
 
 	i = 0
 	for i != 1000000 {
@@ -148,14 +173,58 @@ func FungsiInformasiPeminjaman() {
 		fmt.Scan(&x)
 		switch x {
 		case "1":
+			Pusat.CetakBuku(*T, *N1)
+			// Member.CetakMember(*H, *N2)
+			// fmt.Print("Masukan Nama Member : ")
+			// fmt.Scan(&z.Nama)
+			// idx1 = Member.CariMember(*H, *N2, z.Nama)
+			// if idx1 == 1 {
 			PnK.InputPinjamBuku(&r)
-			PnK.TambahPeminjam(&n, &i, r)
-		case "2":
-			PnK.TambahPengembalian(&n, &i, r)
-		case "3":
-			PnK.CetakPeminjam(n, i)
-		case "4":
+			idx2 = Pusat.CariBuku_Nama(*T, *N1, r.Judul)
+			if idx2 != -1 && T[idx2].JmlBuku > 0 {
+				PnK.TambahPeminjam(&P1, &NPinjam, r)
+				// T[idx2].JmlBuku--
 
+			} else {
+				fmt.Println("--------------------------------------------------------------------")
+				fmt.Println("Stok Buku Habis / Buku Belum Tersedia, Silahkan Pilih Buku Yang Lain")
+				fmt.Println("--------------------------------------------------------------------")
+			}
+			// } else {
+			// 	fmt.Println("-----------------------")
+			// 	fmt.Println("Nama Member Tidak Valid")
+			// 	fmt.Println("-----------------------")
+			// }
+		case "2":
+			PnK.CetakPeminjam(P1, NPinjam)
+			PnK.InputPengembalianBuku(&y)
+			idx2 = PnK.CariPeminjamBuku(P1, NPinjam, y.Nama)
+			if idx2 == 1 {
+				PnK.TambahPengembalian(&P2, &NKembali, y)
+				// PnK.HapusPeminjam(&P1, &NPinjam, r.Nama)
+				// idx1 = Pusat.CariBuku_Nama(*T, *N1, r.Judul)
+				// T[idx1].JmlBuku++
+			} else {
+				fmt.Println("----------------------------------------------------")
+				fmt.Println("Daftar peminjam dengan nama tersebut tidak tersedia")
+				fmt.Println("----------------------------------------------------")
+			}
+		case "3":
+			if NPinjam > 0 {
+				PnK.CetakPeminjam(P1, NPinjam)
+			} else {
+				fmt.Println("-----------------------")
+				fmt.Println("Tidak Ada Peminjam Buku")
+				fmt.Println("-----------------------")
+			}
+		case "4":
+			if NKembali > 0 {
+				PnK.CetakPengembalian(P1, P2, NKembali)
+			} else {
+				fmt.Println("---------------------------")
+				fmt.Println("Tidak Ada Pengembalian Buku")
+				fmt.Println("---------------------------")
+			}
 		case "5":
 			i = 1000000
 		default:
@@ -163,28 +232,97 @@ func FungsiInformasiPeminjaman() {
 		}
 	}
 }
-func FungsiMember() {
-	var i int
-	var x string
 
-	i = 100000
-	for i != 100000 {
-		Member()
-		fmt.Println("Pilih [1/2/3/4]")
-		fmt.Print("PIlihan : ")
-		fmt.Scan(x)
-		switch x {
-		case "1":
+// func FungsiMember(T *Member.TabMember, N *int) {
+// 	var r Member.Member
+// 	var x, y, Nama string
+// 	var i int
 
-		case "2":
+// 	i = 0
+// 	for i != 100000 {
+// 		MenuMember()
+// 		fmt.Println("Pilih [1/2/3/4/5]")
+// 		fmt.Print("Pilihan : ")
+// 		fmt.Scan(&x)
+// 		switch x {
+// 		case "1":
+// 			if *N > 0 {
+// 				Member.CetakMember(*T, *N)
+// 			} else {
+// 				fmt.Println("------------------")
+// 				fmt.Println("Data Member Kosong")
+// 				fmt.Println("------------------")
+// 			}
+// 		case "2":
+// 			for y != "N" || x == "2" {
+// 				Member.InputMember(&r)
+// 				idx := Member.CariMember(*T, *N, r.Nama)
+// 				if idx == -1 {
+// 					fmt.Print("Simpan Member? [Y|N] ")
+// 					fmt.Scan(&x)
+// 					if x == "Y" || x == "y" {
+// 						Member.TambahMember(T, N, r)
+// 					} else {
+// 						fmt.Println("Member Tidak Tersimpan")
+// 					}
+// 					fmt.Print("Tambah member Lagi? [Y|N] ")
+// 					fmt.Scan(&y)
+// 				} else {
+// 					fmt.Println("Member telah Terdaftar")
+// 				}
+// 			}
+// 		case "3":
+// 			for y != "N" || x == "3" {
+// 				Member.CetakMember(*T, *N)
+// 				fmt.Print("Masukan Nama Member Yang Akan Diedit : ")
+// 				fmt.Scan(&Nama)
+// 				idx := Member.CariMember(*T, *N, Nama)
+// 				if idx == 1 {
+// 					Member.InputMember(&r)
+// 					fmt.Print("Simpan? [Y|N]")
+// 					fmt.Scan(&x)
+// 					if x == "Y" || x == "y" {
+// 						Member.EditMember(T, *N, Nama, r)
+// 						fmt.Print("Edit Member Lagi? [Y|N]")
+// 						fmt.Scan(&y)
+// 					} else {
+// 						fmt.Print("Pembaruan Tidak Tersimpan")
+// 					}
+// 				} else {
+// 					fmt.Println("---------------------")
+// 					fmt.Println("Member Tidak Tersedia")
+// 					fmt.Println("---------------------")
+// 				}
 
-		case "3":
+// 			}
+// 		case "4":
+// 			for y != "N" || x == "4" {
+// 				Member.CetakMember(*T, *N)
+// 				fmt.Print("Masukan Member Yang Akan Dihapus : ")
+// 				fmt.Scan(&r.Nama)
+// 				idx := Member.CariMember(*T, *N, r.Nama)
+// 				if idx == 1 {
+// 					fmt.Print("Member Akan Dihapus? [Y|N] ")
+// 					fmt.Scan(&x)
+// 					if x == "Y" || x == "y" {
+// 						Member.HapusMember(T, N, r.Nama)
+// 						fmt.Print("Hapus Member Lagi ? [Y|N] ")
+// 						fmt.Scan(&y)
+// 					} else {
+// 						fmt.Print("Member Tidak Terhapus")
+// 					}
+// 				} else {
+// 					fmt.Println("--------------------------")
+// 					fmt.Println("Data Member Tidak Tersedia")
+// 					fmt.Println("--------------------------")
+// 				}
+// 			}
+// 		case "5":
+// 			i = 100000
+// 		default:
+// 			fmt.Println("INPUT TIDAK VALID")
+// 		}
 
-		case "4":
-			i = 100000
-		default:
-			fmt.Println("INPUT TIDAK VALID")
-		}
+// 	}
 
-	}
-}
+// }

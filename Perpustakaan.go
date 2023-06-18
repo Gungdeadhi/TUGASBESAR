@@ -2,6 +2,7 @@ package main
 
 import (
 	"TUGASBESAR/Admin"
+	// "TUGASBESAR/Member"
 	"TUGASBESAR/Pusat"
 	"TUGASBESAR/Regristrasi"
 	"fmt"
@@ -12,7 +13,7 @@ func tampilanAwal() {
 	fmt.Print("\v",
 		"=========================================================================\n",
 		"||****                  **** SELAMAT DATANG ****                   ****||\n",
-		"||         *****        ------------------------         *****         ||\n",
+		"||                      ------------------------                       ||\n",
 		"=========================================================================\n",
 	)
 }
@@ -29,10 +30,11 @@ func Pilih() {
 	fmt.Println(" ")
 }
 func main() {
-	var A Pusat.TabBuku
+	// var H Member.TabMember
 	var T Regristrasi.Pengguna
+	var A Pusat.TabBuku
 	var r Regristrasi.AdminRegristrasi
-	var n, percobaan int
+	var N1, N2, percobaan int
 	var x string
 	var berhasil bool
 
@@ -56,7 +58,7 @@ func main() {
 			fmt.Scan(&r.Usser)
 			fmt.Print("Buat Password 	: ")
 			fmt.Scan(&r.Password)
-			for Regristrasi.Cek(T, n, r) {
+			for Regristrasi.Cek(T, N1, r) {
 				Regristrasi.Gagal()
 				fmt.Print("Nama 	: ")
 				fmt.Scan(&r.Nama)
@@ -65,7 +67,7 @@ func main() {
 				fmt.Print("Buat Password	 : ")
 				fmt.Scan(&r.Password)
 			}
-			Regristrasi.BuatAkun(&T, &n, r)
+			Regristrasi.BuatAkun(&T, &N1, r)
 			Regristrasi.Berhasil()
 		} else if x == "2" {
 			percobaan = 3
@@ -76,7 +78,7 @@ func main() {
 				fmt.Print("Masukan Password 	: ")
 				fmt.Scan(&r.Password)
 
-				berhasil = Regristrasi.Login(T, n, &r)
+				berhasil = Regristrasi.Login(T, N1, &r)
 
 				if !berhasil {
 					fmt.Println("--------------------------------")
@@ -89,7 +91,7 @@ func main() {
 			}
 
 			if berhasil {
-				Admin.FungsiAdmin(&A, r)
+				Admin.FungsiAdmin(&A, &N2, r)
 			} else {
 				fmt.Println("----------------")
 				fmt.Println("Login Anda Gagal")

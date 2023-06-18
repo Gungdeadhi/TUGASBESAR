@@ -26,6 +26,16 @@ var Tabel = [TabCetak]string{
 	"STOK",
 }
 
+const TabCari = 5
+
+var TabelCari = [TabCari]string{
+	"JUDUL",
+	"KODE",
+	"PENGARANG",
+	"TAHUN TERBIT",
+	"STOK",
+}
+
 func InputBuku(n *Buku) {
 	fmt.Print("Masukan Judul Buku		: ")
 	fmt.Scan(&n.Judul)
@@ -132,6 +142,7 @@ func CariBuku_Kode(T TabBuku, n int, kode string) int {
 	}
 	return -1
 }
+
 func EditBuku(T *TabBuku, n int, judul string, k Buku) {
 	idx := CariBuku_Nama(*T, n, judul)
 	T[idx] = k
@@ -157,10 +168,57 @@ func SelSort(T *TabBuku, n int) {
 			if T[i].JmlBuku > T[idx].JmlBuku {
 				idx = i
 			}
+			i++
 		}
 		temp = T[idx]
 		T[idx] = T[pass-1]
 		T[pass-1] = temp
 		pass++
 	}
+}
+
+func CetakCariBuku(T TabBuku, n int) {
+	var i int
+	var MaxTab [TabCari]int
+	var Pemisah string
+
+	for i = 0; i < TabCari; i++ {
+		MaxTab[i] = len(Tabel[i])
+	}
+
+	for i = 0; i < n; i++ {
+		MaxTab[0] = Max(MaxTab[0], len(T[i].Judul))
+		MaxTab[1] = Max(MaxTab[1], len(T[i].Pengarang))
+		MaxTab[2] = Max(MaxTab[2], len(T[i].Kode))
+		MaxTab[3] = Max(MaxTab[3], len(ToStr(T[i].T_Terbit)))
+		MaxTab[4] = Max(MaxTab[4], len(ToStr(T[i].JmlBuku)))
+	}
+
+	Pemisah = "+"
+
+	for i = 0; i < TabCari; i++ {
+		Pemisah += strings.Repeat("-", MaxTab[i]+2)
+		Pemisah += "+"
+	}
+
+	fmt.Println(Pemisah)
+
+	for i = 0; i < TabCari; i++ {
+		fmt.Printf("| %s ", LJust(Tabel[i], MaxTab[i]))
+	}
+
+	fmt.Println("|")
+	fmt.Println(Pemisah)
+
+	for i = 0; i < n; i++ {
+		fmt.Printf(
+			"| %s | %s | %s | %s | %s |\n",
+			LJust(T[i].Judul, MaxTab[0]),
+			LJust(T[i].Kode, MaxTab[1]),
+			LJust(T[i].Pengarang, MaxTab[2]),
+			LJust(ToStr(T[i].T_Terbit), MaxTab[3]),
+			LJust(ToStr(T[i].JmlBuku), MaxTab[4]),
+		)
+	}
+	fmt.Println(Pemisah)
 }
