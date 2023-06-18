@@ -148,13 +148,13 @@ func EditBuku(T *TabBuku, n int, judul string, k Buku) {
 	T[idx] = k
 }
 
-func HapusBuku(T *TabBuku, n int, Judul string) {
-	idx := CariBuku_Nama(*T, n, Judul)
-	for i := idx; i < n; i++ {
+func HapusBuku(T *TabBuku, n *int, Judul string) {
+	idx := CariBuku_Nama(*T, *n, Judul)
+	for i := idx; i < *n; i++ {
 		T[i] = T[i+1]
 	}
-	T[n-1] = Buku{}
-	n--
+	T[*n-1] = Buku{}
+	*n--
 }
 
 func SelSort(T *TabBuku, n int) {

@@ -154,7 +154,7 @@ func CetakPeminjam(T TabPinjam, n int) {
 func CariPeminjamBuku(T TabPinjam, n int, Nama string) int {
 	for i := 0; i < n; i++ {
 		if T[i].Nama == Nama {
-			return 1
+			return i
 		}
 	}
 	return -1
@@ -195,7 +195,6 @@ func CetakPengembalian(T1 TabPinjam, T2 TabPengembali, n int) {
 	}
 
 	for i = 0; i < n; i++ {
-
 		fd1 = HitungHari.FormatTanggal(T2[i].Tgl_Kembali1)
 		fd2 = HitungHari.FormatTanggal(T2[i].Tgl_Kembali2)
 		fd3 = Denda(T2, i)
@@ -250,7 +249,7 @@ func CetakPengembalian(T1 TabPinjam, T2 TabPengembali, n int) {
 func CariPengembaliBuku(T TabPengembali, n int, Nama string) int {
 	for i := 0; i < n; i++ {
 		if T[i].Nama == Nama {
-			return 1
+			return i
 		}
 	}
 	return -1
@@ -264,30 +263,23 @@ func HapusPengembali(T *TabPengembali, n *int, Nama string) {
 	*n--
 }
 
-func BiayaPinjam(T TabPinjam, n int) int {
-	return T[n].Biaya1 * (HitungHari.N(T[n].Tgl_Kembali1) - HitungHari.N(T[n].Tgl_Pinjam1))
+func BiayaPinjam(T TabPinjam, idx int) int {
+	return T[idx].Biaya1 * (HitungHari.N(T[idx].Tgl_Kembali1) - HitungHari.N(T[idx].Tgl_Pinjam1))
 }
 
-func CekKeterlambat(T TabPengembali, n int) bool {
-
-	if T[n].Tgl_Kembali1.Tgl > T[n].Tgl_Kembali2.Tgl {
-		return true
-	} else {
-		return false
-	}
-
+func CekKeterlambat(T TabPengembali, idx int) bool {
+	return HitungHari.Mendahului(T[idx].Tgl_Kembali1, T[idx].Tgl_Kembali2)
 }
 
-func Denda(T TabPengembali, n int) int {
-
-	if CekKeterlambat(T, n) {
-		return 10000 * (HitungHari.N(T[n].Tgl_Kembali2) - HitungHari.N(T[n].Tgl_Kembali1))
+func Denda(T TabPengembali, idx int) int {
+	if CekKeterlambat(T, idx) {
+		return 10000 * (HitungHari.N(T[idx].Tgl_Kembali2) - HitungHari.N(T[idx].Tgl_Kembali1))
 	} else {
 		return 0
 	}
 
 }
 
-func Total(T1 TabPinjam, T2 TabPengembali, n int) int {
-	return BiayaPinjam(T1, n) + Denda(T2, n)
+func Total(T1 TabPinjam, T2 TabPengembali, idx1 int) int {
+	return BiayaPinjam(T1, idx1) + Denda(T2, idx1)
 }

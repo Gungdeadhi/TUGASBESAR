@@ -41,7 +41,7 @@ func TambahMember(T *TabMember, i *int, r Member) {
 func CariMember(T TabMember, n int, Nama string) int {
 	for i := 0; i < n; i++ {
 		if T[i].Nama == Nama {
-			return 1
+			return i
 		}
 	}
 	return -1

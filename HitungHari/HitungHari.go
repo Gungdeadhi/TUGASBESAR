@@ -29,3 +29,25 @@ func g(d Date) int {
 func N(d Date) int {
 	return ((1461 * f(d)) / 4) + (153*g(d))/5 + d.Tgl
 }
+
+func Mendahului(d1, d2 Date) bool {
+	if d1.Thn < d2.Thn {
+		return true
+	} else if d1.Thn > d2.Thn {
+		return false
+	}
+
+	if d1.Bln < d2.Bln {
+		return true
+	} else if d1.Bln > d2.Bln {
+		return false
+	}
+
+	if d1.Tgl < d2.Tgl {
+		return true
+	} else if d1.Tgl > d2.Tgl {
+		return false
+	}
+
+	return false
+}

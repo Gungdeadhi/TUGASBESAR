@@ -23,9 +23,8 @@ func MenuAdmin(n string) {
 		"3. Edit Data Buku \n",
 		"4. Hapus Buku\n",
 		"5. Informasi Peminjaman \n",
-		"6. Daftar Buku Terfavorit \n",
-		"7. Data Member\n",
-		"8. LogOut \n",
+		"6. Data Member\n",
+		"7. LogOut \n",
 	)
 }
 func InformasiPeminjaman() {
@@ -102,7 +101,7 @@ func FungsiAdmin(T *Pusat.TabBuku, r Regristrasi.AdminRegristrasi, P1 *PnK.TabPi
 				fmt.Scan(&Judul)
 				fmt.Println(" ")
 				idx = Pusat.CariBuku_Nama(*T, *N1, Judul)
-				if idx == i {
+				if idx != -1 {
 					Pusat.InputBuku(&k)
 					fmt.Print("Simpan Buku? [Y/N] : ")
 					fmt.Scan(&x)
@@ -121,11 +120,11 @@ func FungsiAdmin(T *Pusat.TabBuku, r Regristrasi.AdminRegristrasi, P1 *PnK.TabPi
 			fmt.Scan(&Judul)
 
 			idx = Pusat.CariBuku_Nama(*T, *N1, Judul)
-			if idx == i {
+			if idx != -1 {
 				fmt.Print("Buku akan dihapus? [Y|N] : ")
 				fmt.Scan(&j)
 				if j == "Y" || j == "y" {
-					Pusat.HapusBuku(T, *N1, Judul)
+					Pusat.HapusBuku(T, N1, Judul)
 				} else if j == "N" || j == "n" {
 					fmt.Println("Buku Tidak Terhapus ")
 				}
@@ -136,20 +135,10 @@ func FungsiAdmin(T *Pusat.TabBuku, r Regristrasi.AdminRegristrasi, P1 *PnK.TabPi
 
 		case "5":
 			FungsiInformasiPeminjaman(T, P1, P2, H, N1, N2, NPinjam, NKembali)
+
 		case "6":
-			fmt.Print("Masukan Buku Yang Ingin Dicari : ")
-			fmt.Scan(&Judul)
-
-			idx = Pusat.CariBuku_Nama(*T, *N1, Judul)
-			if idx == i {
-				Pusat.CetakCariBuku(*T, *N1)
-			} else {
-				fmt.Print("Buku Tidak Tersedia")
-			}
-
-		case "7":
 			FungsiMember(H, N2)
-		case "8":
+		case "7":
 			i = 1000000
 		default:
 			fmt.Println("INPUT TIDAK VALID")
@@ -176,7 +165,7 @@ func FungsiInformasiPeminjaman(T *Pusat.TabBuku, P1 *PnK.TabPinjam, P2 *PnK.TabP
 			fmt.Print("Masukan Nama Member : ")
 			fmt.Scan(&z.Nama)
 			idx1 = Member.CariMember(*H, *N2, z.Nama)
-			if idx1 == 1 {
+			if idx1 != -1 {
 				PnK.InputPinjamBuku(&r)
 				idx2 = Pusat.CariBuku_Nama(*T, *N1, r.Judul)
 				if idx2 != -1 && T[idx2].JmlBuku > 0 {
@@ -197,9 +186,8 @@ func FungsiInformasiPeminjaman(T *Pusat.TabBuku, P1 *PnK.TabPinjam, P2 *PnK.TabP
 			PnK.CetakPeminjam(*P1, *NPinjam)
 			PnK.InputPengembalianBuku(&y)
 			idx2 = PnK.CariPeminjamBuku(*P1, *NPinjam, y.Nama)
-			if idx2 == 1 {
+			if idx2 != -1 {
 				PnK.TambahPengembalian(P2, NKembali, y)
-				PnK.HapusPeminjam(P1, *NPinjam, r.Nama)
 				idx1 = Pusat.CariBuku_Nama(*T, *N1, r.Judul)
 				T[idx1].JmlBuku++
 			} else {
@@ -275,7 +263,7 @@ func FungsiMember(T *Member.TabMember, N *int) {
 				fmt.Print("Masukan Nama Member Yang Akan Diedit : ")
 				fmt.Scan(&Nama)
 				idx := Member.CariMember(*T, *N, Nama)
-				if idx == 1 {
+				if idx != -1 {
 					Member.InputMember(&r)
 					fmt.Print("Simpan? [Y|N]")
 					fmt.Scan(&x)
@@ -299,7 +287,7 @@ func FungsiMember(T *Member.TabMember, N *int) {
 				fmt.Print("Masukan Member Yang Akan Dihapus : ")
 				fmt.Scan(&r.Nama)
 				idx := Member.CariMember(*T, *N, r.Nama)
-				if idx == 1 {
+				if idx != -1 {
 					fmt.Print("Member Akan Dihapus? [Y|N] ")
 					fmt.Scan(&x)
 					if x == "Y" || x == "y" {
