@@ -106,7 +106,7 @@ func CetakPeminjam(T TabPinjam, n int) {
 
 		fd1 = HitungHari.FormatTanggal(T[i].Tgl_Pinjam1)
 		fd2 = HitungHari.FormatTanggal(T[i].Tgl_Kembali1)
-		fd3 = BiayaPinjam(&T, i)
+		fd3 = BiayaPinjam(T, i)
 
 		MaxTab[0] = Max(MaxTab[0], len(ToStr(i+1)))
 		MaxTab[1] = Max(MaxTab[1], len(T[i].Nama))
@@ -136,7 +136,7 @@ func CetakPeminjam(T TabPinjam, n int) {
 
 		fd1 = HitungHari.FormatTanggal(T[i].Tgl_Pinjam1)
 		fd2 = HitungHari.FormatTanggal(T[i].Tgl_Kembali1)
-		fd3 = BiayaPinjam(&T, i)
+		fd3 = BiayaPinjam(T, i)
 
 		fmt.Printf(
 			"| %s | %s | %s | %s | %s | %s |\n",
@@ -160,13 +160,13 @@ func CariPeminjamBuku(T TabPinjam, n int, Nama string) int {
 	return -1
 }
 
-func HapusPeminjam(T *TabPinjam, n *int, Nama string) {
-	idx := CariPeminjamBuku(*T, *n, Nama)
-	for i := idx; i < *n; i++ {
+func HapusPeminjam(T *TabPinjam, n int, Nama string) {
+	idx := CariPeminjamBuku(*T, n, Nama)
+	for i := idx; i < n; i++ {
 		T[i] = T[i+1]
 	}
-	T[*n-1] = Pinjam{}
-	*n--
+	T[n-1] = Pinjam{}
+	n--
 }
 
 func InputPengembalianBuku(n *Pengembali) {
@@ -198,8 +198,8 @@ func CetakPengembalian(T1 TabPinjam, T2 TabPengembali, n int) {
 
 		fd1 = HitungHari.FormatTanggal(T2[i].Tgl_Kembali1)
 		fd2 = HitungHari.FormatTanggal(T2[i].Tgl_Kembali2)
-		fd3 = Denda(&T2, i)
-		fd4 = Total(&T1, &T2, i)
+		fd3 = Denda(T2, i)
+		fd4 = Total(T1, T2, i)
 
 		MaxTab[0] = Max(MaxTab[0], len(ToStr(i+1)))
 		MaxTab[1] = Max(MaxTab[1], len(T2[i].Nama))
@@ -230,8 +230,8 @@ func CetakPengembalian(T1 TabPinjam, T2 TabPengembali, n int) {
 
 		fd1 = HitungHari.FormatTanggal(T2[i].Tgl_Kembali1)
 		fd2 = HitungHari.FormatTanggal(T2[i].Tgl_Kembali2)
-		fd3 = Denda(&T2, i)
-		fd4 = Total(&T1, &T2, i)
+		fd3 = Denda(T2, i)
+		fd4 = Total(T1, T2, i)
 
 		fmt.Printf(
 			"| %s | %s | %s | %s | %s | %s | %s |\n",
@@ -264,11 +264,11 @@ func HapusPengembali(T *TabPengembali, n *int, Nama string) {
 	*n--
 }
 
-func BiayaPinjam(T *TabPinjam, n int) int {
+func BiayaPinjam(T TabPinjam, n int) int {
 	return T[n].Biaya1 * (HitungHari.N(T[n].Tgl_Kembali1) - HitungHari.N(T[n].Tgl_Pinjam1))
 }
 
-func CekKeterlambat(T *TabPengembali, n int) bool {
+func CekKeterlambat(T TabPengembali, n int) bool {
 
 	if T[n].Tgl_Kembali1.Tgl > T[n].Tgl_Kembali2.Tgl {
 		return true
@@ -278,7 +278,7 @@ func CekKeterlambat(T *TabPengembali, n int) bool {
 
 }
 
-func Denda(T *TabPengembali, n int) int {
+func Denda(T TabPengembali, n int) int {
 
 	if CekKeterlambat(T, n) {
 		return 10000 * (HitungHari.N(T[n].Tgl_Kembali2) - HitungHari.N(T[n].Tgl_Kembali1))
@@ -288,6 +288,6 @@ func Denda(T *TabPengembali, n int) int {
 
 }
 
-func Total(T1 *TabPinjam, T2 *TabPengembali, n int) int {
+func Total(T1 TabPinjam, T2 TabPengembali, n int) int {
 	return BiayaPinjam(T1, n) + Denda(T2, n)
 }

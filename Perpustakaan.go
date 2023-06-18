@@ -2,7 +2,9 @@ package main
 
 import (
 	"TUGASBESAR/Admin"
-	// "TUGASBESAR/Member"
+	"TUGASBESAR/PnK"
+
+	"TUGASBESAR/Member"
 	"TUGASBESAR/Pusat"
 	"TUGASBESAR/Regristrasi"
 	"fmt"
@@ -29,12 +31,15 @@ func Pilih() {
 	)
 	fmt.Println(" ")
 }
+
 func main() {
-	// var H Member.TabMember
+	var H Member.TabMember
+	var P1 PnK.TabPinjam
+	var P2 PnK.TabPengembali
 	var T Regristrasi.Pengguna
 	var A Pusat.TabBuku
 	var r Regristrasi.AdminRegristrasi
-	var N1, N2, percobaan int
+	var N1, N2, N3, NPinjam, NKembali, percobaan int
 	var x string
 	var berhasil bool
 
@@ -91,7 +96,7 @@ func main() {
 			}
 
 			if berhasil {
-				Admin.FungsiAdmin(&A, &N2, r)
+				Admin.FungsiAdmin(&A, r, &P1, &P2, &H, &N2, &N3, &NPinjam, &NKembali)
 			} else {
 				fmt.Println("----------------")
 				fmt.Println("Login Anda Gagal")
